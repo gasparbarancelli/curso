@@ -1,0 +1,36 @@
+<project name="garbo-corporativo" basedir=".">
+	<description>
+        Deploy dos artefatos no servidor
+    </description>
+	
+	<!-- set global properties for this build -->
+	<property file="build.properties"/>
+
+	
+	<!--Início site jsf-->
+	<target name="undeploy">
+		<exec executable="${glassfish.home}/bin/${glassfish.asadmin}">
+   			<arg line="--host=localhost"/>
+			<arg line="--port=4848"/>
+			<arg line="undeploy"/>
+			<arg line="${projeto.war}"/>
+		</exec>
+	</target>
+
+	<target name="deploy">
+		<exec executable="${glassfish.home}/bin/${glassfish.asadmin}">
+			<arg line="--host=localhost"/>
+			<arg line="--port=4848"/>
+			<arg line="deploy"/>
+			<arg line="--force"/>
+			<arg line="--contextroot /"/>
+			<arg line="target/${projeto.war}"/>
+		</exec>
+	</target>
+
+	<target name="reload">
+		<touch file="target/${projeto.war}/.reload" />
+	</target>
+	<!--Fim site jsf-->
+
+</project>

@@ -1,0 +1,126 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:viasoft="http://java.sun.com/jsf/composite/viasoft">
+<ui:decorate template="../template/padrao.xhtml">
+    <ui:define name="titulo">
+        <h:outputText value="#{form.pesquisaPedido}"/>
+    </ui:define>
+
+    <ui:define name="metadata">
+        <f:event type="preRenderView" listener="#{pedidoController.find}"/>
+    </ui:define>
+
+    <ui:define name="conteudo">
+        <p:panelGrid columns="3">
+            <p:outputLabel value="#{form.cliente}" for="cliente"/>
+
+            <p:autoComplete value="#{pedidoController.entity.cliente}"
+                            completeMethod="#{pedidoController.completeCliente}"
+                            converter="#{clienteConverter}"
+                            label="#{form.cliente}" id="cliente" var="cliente"
+                            itemLabel="#{cliente.nome}" itemValue="#{cliente}"
+                            dropdown="true" forceSelection="true"/>
+
+            <p:commandButton value="Pesquisar" process="@form" update="@form" action="#{pedidoController.find}"/>
+        </p:panelGrid>
+
+        <p:spacer height="40px"/>
+
+        <p:dataTable value="#{pedidoController.lsEntity}" var="item" emptyMessage="#{msg.nenhum_registro_encontrado}" paginator="true" rows="10" paginatorPosition="bottom">
+            <p:column headerText="#{form.codigo}" sortBy="#{item.id}" filterBy="#{item.id}">
+                <h:outputText value="#{item.id}"/>
+            </p:column>
+            <p:column headerText="#{form.cliente}" sortBy="#{item.cliente.nome}" filterBy="#{item.cliente.nome}" filterMatchMode="contains">
+                <h:outputText value="#{item.cliente.nome}"/>
+            </p:column>
+            <p:column headerText="#{form.valorTotal}" sortBy="#{item.valorTotal}">
+                <h:outputText value="#{item.valorTotal}">
+                    <f:convertNumber locale="pt_BR" pattern="#,##0.00"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="#{form.acoes}" style="text-align: center" width="20%">
+                <viasoft:commandButtonSearch controller="#{pedidoController}"/>
+            </p:column>
+        </p:dataTable>
+
+        <p:spacer height="10px"/>
+    </ui:define>
+
+    <ui:define name="rodape">
+        <p:commandButton value="#{form.adicionarNovoPedido}" action="/pages/pedido/pedidoForm.xhtml?faces-redirect=true"
+                         immediate="true" ajax="false" style="float: right"/>
+        <div style="clear: both"></div>
+    </ui:define>
+
+    <ui:define name="foraDoForm">
+        <viasoft:confirmExclusaoSimples update=":form" action="#{pedidoController.delete}"/>
+
+        <p:dialog header="#{form.pedido}" id="view" widgetVar="view" modal="true" visible="false" resizable="false" width="600" height="300">
+            <p:tabView>
+                <p:tab title="#{form.principal}" rendered="#{pedidoController.entityView ne null}">
+                    <p:panelGrid columns="2" id="view" columnClasses="columnBold">
+                        <h:outputText value="#{form.codigo}"/>
+                        <h:outputText value="#{pedidoController.entityView.id}"/>
+
+                        <h:outputText value="#{form.cliente}"/>
+                        <h:outputText value="#{pedidoController.entityView.cliente.nome}"/>
+
+                        <h:outputText value="#{form.parcela}"/>
+                        <h:outputText value="#{pedidoController.entityView.parcela.descricao}"/>
+
+                        <h:outputText value="#{form.valorTotal}"/>
+                        <h:outputText value="#{pedidoController.entityView.valorTotal}">
+                            <f:convertNumber locale="pt_BR" pattern="#,##0.00"/>
+                        </h:outputText>
+
+                        <h:outputText value="#{form.descontoPercentual}"/>
+                        <h:outputText value="#{pedidoController.entityView.descontoPercentual}">
+                            <f:convertNumber locale="pt_BR" pattern="#,##0.00"/>
+                        </h:outputText>
+
+                        <h:outputText value="#{form.descontoTotal}"/>
+                        <h:outputText value="#{pedidoController.entityView.descontoTotal}">
+                            <f:convertNumber locale="pt_BR" pattern="#,##0.00"/>
+                        </h:outputText>
+                    </p:panelGrid>
+                </p:tab>
+                <p:tab title="#{form.itens}" rendered="#{pedidoController.entityView ne null}">
+                    <p:dataTable value="#{pedidoController.entityView.itens}" var="pedidoItem">
+                        <p:column headerText="#{form.item}">
+                            <h:outputText value="#{pedidoItem.item.nome}"/>
+                        </p:column>
+                        <p:column headerText="#{form.quantidade}">
+                            <h:outputText value="#{pedidoItem.quantidade}">
+                                <f:convertNumber locale="pt_BR" pattern="#,##0.00"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{form.valor}">
+                            <h:outputText value="#{pedidoItem.valor}">
+                                <f:convertNumber locale="pt_BR" pattern="#,##0.00"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+                <p:tab title="#{form.parcelas}" rendered="#{pedidoController.entityView ne null}">
+                    <p:dataTable value="#{pedidoController.entityView.parcelas}" var="pedidoParcela">
+                        <p:column headerText="#{form.dataDeVencimento}">
+                            <h:outputText value="#{pedidoParcela.vencimento}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{form.valor}">
+                            <h:outputText value="#{pedidoParcela.valor}">
+                                <f:convertNumber locale="pt_BR" pattern="#,##0.00"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:dataTable>
+                </p:tab>
+            </p:tabView>
+        </p:dialog>
+    </ui:define>
+
+</ui:decorate>
+</html>

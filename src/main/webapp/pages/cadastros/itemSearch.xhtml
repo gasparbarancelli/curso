@@ -1,0 +1,73 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:viasoft="http://java.sun.com/jsf/composite/viasoft">
+<ui:decorate template="../template/padrao.xhtml">
+    <ui:define name="titulo">
+        <h:outputText value="#{form.pesquisaItem}"/>
+    </ui:define>
+
+    <ui:define name="metadata">
+        <f:event type="preRenderView" listener="#{itemController.find}"/>
+    </ui:define>
+
+    <ui:define name="conteudo">
+        <p:panelGrid columns="3">
+            <p:outputLabel value="#{form.nome}" for="nome"/>
+
+            <p:inputText value="#{itemController.entity.nome}" label="#{form.nome}" id="nome" maxlength="50"/>
+
+            <p:commandButton value="Pesquisar" process="@form" update="@form" action="#{itemController.find}"/>
+        </p:panelGrid>
+
+        <p:spacer height="40px"/>
+
+        <p:dataTable value="#{itemController.lsEntity}" var="item" emptyMessage="#{msg.nenhum_registro_encontrado}" paginator="true" rows="10" paginatorPosition="bottom">
+            <p:column headerText="#{form.codigo}" sortBy="#{item.id}" filterBy="#{item.id}">
+                <h:outputText value="#{item.id}"/>
+            </p:column>
+            <p:column headerText="#{form.nome}" sortBy="#{item.nome}" filterBy="#{item.nome}" filterMatchMode="contains">
+                <h:outputText value="#{item.nome}"/>
+            </p:column>
+            <p:column headerText="#{form.preco}" sortBy="#{item.preco}">
+                <h:outputText value="#{item.preco}">
+                    <f:convertNumber locale="pt_BR" pattern="#,##0.00" />
+                </h:outputText>
+            </p:column>
+            <p:column headerText="#{form.acoes}" style="text-align: center" width="20%">
+                <viasoft:commandButtonSearch controller="#{itemController}"/>
+            </p:column>
+        </p:dataTable>
+
+        <p:spacer height="10px"/>
+    </ui:define>
+
+    <ui:define name="rodape">
+        <p:commandButton value="#{form.adicionarNovoItem}" action="/pages/cadastros/itemForm.xhtml?faces-redirect=true"
+                         immediate="true" ajax="false" style="float: right"/>
+        <div style="clear: both"></div>
+    </ui:define>
+
+    <ui:define name="foraDoForm">
+        <viasoft:confirmExclusaoSimples update=":form" action="#{itemController.delete}"/>
+
+        <p:dialog header="#{form.item}" id="view" widgetVar="view" modal="true" visible="false" resizable="false" width="300">
+            <p:panelGrid columns="2" id="view" columnClasses="columnBold">
+                <h:outputText value="#{form.codigo}"/>
+                <h:outputText value="#{itemController.entityView.id}"/>
+
+                <h:outputText value="#{form.nome}"/>
+                <h:outputText value="#{itemController.entityView.nome}"/>
+
+                <h:outputText value="#{form.preco}"/>
+                <h:outputText value="#{itemController.entityView.preco}">
+                    <f:convertNumber pattern="#,##0,00"/>
+                </h:outputText>
+            </p:panelGrid>
+        </p:dialog>
+    </ui:define>
+
+</ui:decorate>
+</html>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config
+        xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd"
+        version="2.0">
+
+    <application>
+        <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+        <message-bundle>jsfMessages</message-bundle>
+        <resource-bundle>
+            <base-name>formulario</base-name>
+            <var>form</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>messages</base-name>
+            <var>msg</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>application</base-name>
+            <var>app</var>
+        </resource-bundle>
+        <locale-config>
+            <default-locale>pt_BR</default-locale>
+        </locale-config>
+
+        <system-event-listener>
+            <system-event-listener-class>br.com.viasoft.web.scope.ViewScopeCallbackRegistrar</system-event-listener-class>
+            <system-event-class>javax.faces.event.PostConstructViewMapEvent</system-event-class>
+            <source-class>javax.faces.component.UIViewRoot</source-class>
+        </system-event-listener>
+
+        <system-event-listener>
+            <system-event-listener-class>br.com.viasoft.web.scope.ViewScopeCallbackRegistrar</system-event-listener-class>
+            <system-event-class>javax.faces.event.PreDestroyViewMapEvent</system-event-class>
+            <source-class>javax.faces.component.UIViewRoot</source-class>
+        </system-event-listener>
+    </application>
+
+</faces-config>

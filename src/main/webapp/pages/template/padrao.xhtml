@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <title>
+        <ui:insert name="titulo">
+            <h:outputText value="Curso"/>
+        </ui:insert>
+    </title>
+    <link rel="stylesheet" href="/compress/grupoBase.css" type="text/css"/>
+    <h:outputStylesheet library="css" name="menu.css"/>
+    <h:outputStylesheet library="css" name="customPrime.css"/>
+    <h:outputStylesheet library="css" name="default.css"/>
+</h:head>
+
+<h:body>
+    <f:view>
+
+        <f:metadata>
+            <ui:insert name="metadata">
+
+            </ui:insert>
+        </f:metadata>
+
+        <h:form id="form">
+
+            <p:focus/>
+
+            <p:menubar styleClass="vs-menu">
+                <p:submenu label="Cadastros" icon="ui-icon-document">
+                    <p:submenu label="#{form.item}" icon="ui-icon-wrench">
+                        <p:menuitem value="#{form.cadastro}" icon="ui-icon-plusthick" url="/pages/cadastros/itemForm.xhtml?faces-redirect=true" />
+                        <p:menuitem value="#{form.pesquisa}" icon="ui-icon-search" url="/pages/cadastros/itemSearch.xhtml?faces-redirect=true" />
+                    </p:submenu>
+                    <p:submenu label="#{form.cliente}" icon="ui-icon-wrench">
+                        <p:menuitem value="#{form.cadastro}" icon="ui-icon-plusthick" url="/pages/cadastros/clienteForm.xhtml?faces-redirect=true" />
+                        <p:menuitem value="#{form.pesquisa}" icon="ui-icon-search" url="/pages/cadastros/clienteSearch.xhtml?faces-redirect=true" />
+                    </p:submenu>
+                    <p:submenu label="#{form.parcela}" icon="ui-icon-wrench">
+                        <p:menuitem value="#{form.cadastro}" icon="ui-icon-plusthick" url="/pages/cadastros/parcelaForm.xhtml?faces-redirect=true" />
+                        <p:menuitem value="#{form.pesquisa}" icon="ui-icon-search" url="/pages/cadastros/parcelaSearch.xhtml?faces-redirect=true" />
+                    </p:submenu>
+                </p:submenu>
+
+                <p:submenu label="#{form.pedido}" icon="ui-icon-wrench">
+                    <p:menuitem value="#{form.cadastro}" icon="ui-icon-plusthick" url="/pages/pedido/pedidoForm.xhtml?faces-redirect=true" />
+                    <p:menuitem value="#{form.pesquisa}" icon="ui-icon-search" url="/pages/pedido/pedidoSearch.xhtml?faces-redirect=true" />
+                </p:submenu>
+            </p:menubar>
+
+
+            <p:panel>
+                <f:facet name="header">
+                    <ui:insert name="titulo">
+                        <h:outputText value="Curso"/>
+                    </ui:insert>
+                </f:facet>
+
+                <p:messages id="messages" closable="true" />
+
+                <ui:insert name="conteudo">
+
+                </ui:insert>
+
+                <f:facet name="footer">
+                    <ui:insert name="rodape">
+
+                    </ui:insert>
+                </f:facet>
+            </p:panel>
+
+        </h:form>
+
+        <ui:insert name="foraDoForm">
+
+        </ui:insert>
+    </f:view>
+</h:body>
+</html>

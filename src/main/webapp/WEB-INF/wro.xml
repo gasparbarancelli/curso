@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<groups xmlns="http://www.isdc.ro/wro"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.isdc.ro/wro wro.xsd">
+
+	<group name="base">
+	    <!-- <css>classpath:br/com/garbo/resources/css/base.css</css>
+	    <css>classpath:br/com/garbo/resources/css/rodape.css</css>
+	    <js>classpath:br/com/garbo/resources/js/jquery-1.10.1.min.js</js> -->
+	    <css>/resources/css/default.css</css>
+	    <css>/resources/css/cores.css</css>
+	</group>
+	
+  	<group name="grupoBase">
+    	<group-ref>base</group-ref>
+    	<css>/resources/css/menu.css</css>
+    	<!-- <js>classpath:br/com/garbo/resources/js/gm-messages.js</js> -->
+  	</group>
+
+  	<group name="error">
+    	<!-- <group-ref>base</group-ref>
+    	<css>/resources/css/capa.css</css>
+    	<css>/resources/css/error.css</css> -->
+  	</group>
+
+</groups>

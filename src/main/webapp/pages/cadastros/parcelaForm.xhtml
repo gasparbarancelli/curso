@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:viasoft="http://java.sun.com/jsf/composite/viasoft"
+      xmlns:h="http://java.sun.com/jsf/html">
+<ui:decorate template="../template/padrao.xhtml">
+    <ui:define name="titulo">
+        <h:outputText value="#{form.cadastroParcela}"/>
+    </ui:define>
+
+    <ui:define name="conteudo">
+        <p:panelGrid columns="2">
+            <p:outputLabel value="#{form.codigo}" for="codigo"/>
+            <p:inputText value="#{parcelaController.entity.id}" label="#{form.codigo}" id="codigo" disabled="true"/>
+
+            <p:outputLabel value="#{form.descricao}" for="descricao"/>
+            <p:inputText value="#{parcelaController.entity.descricao}" label="#{form.descricao}" id="descricao" maxlength="60" required="true"/>
+
+            <p:outputLabel value="#{form.ativo}" for="ativo"/>
+            <p:selectOneMenu value="#{parcelaController.entity.ativo}" id="ativo" required="true" label="#{form.ativo}">
+                <f:selectItem itemLabel="Selecione"/>
+                <f:selectItems value="#{parcelaController.opcoesSimNao}"/>
+                <f:converter converterId="enumConverter"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel value="#{form.numeroDeParcelas}" for="numeroDeParcelas"/>
+            <p:inputText value="#{parcelaController.entity.numeroDeParcelas}" label="#{form.numeroDeParcelas}" id="numeroDeParcelas" required="true"/>
+
+            <p:outputLabel value="#{form.diasEntreParcelas}" for="diasEntreParcelas"/>
+            <p:inputText value="#{parcelaController.entity.diasEntreParcelas}" label="#{form.diasEntreParcelas}" id="diasEntreParcelas" required="true"/>
+        </p:panelGrid>
+    </ui:define>
+
+    <ui:define name="rodape">
+        <viasoft:commandButtonForm update="@form" controller="#{parcelaController}"/>
+
+        <p:commandButton value="#{form.pesquisarParcelas}" action="/pages/cadastros/parcelaSearch.xhtml?faces-redirect=true"
+                         immediate="true" ajax="false" style="float: right"/>
+        <div style="clear: both"></div>
+    </ui:define>
+</ui:decorate>
+</html>

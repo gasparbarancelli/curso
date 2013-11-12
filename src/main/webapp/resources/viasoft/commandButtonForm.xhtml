@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+        >
+
+<composite:interface>
+
+    <composite:attribute name="controller"  required="true" />
+    <composite:attribute name="update" required="true" />
+    <composite:attribute name="process" required="false" />
+    <composite:attribute name="saveComplete" required="false" />
+    <composite:attribute name="disabledSave" required="false" default="false" />
+    <composite:attribute name="renderedContextMenu" required="false" default="true"/>
+
+</composite:interface>
+
+<composite:implementation>
+
+    <p:commandButton disabled="#{cc.attrs.disabledSave}" value="#{form.salvar}" action="#{cc.attrs.controller.save}"
+                     immediate="false" update="#{cc.attrs.update}" process="#{!empty cc.attrs.process ? cc.attrs.process : '@form'}"
+                     oncomplete="#{cc.attrs.saveComplete}" />
+
+    <p:commandButton process="@this" value="#{form.cancelar}" action="#{cc.attrs.controller.reset}" update="#{cc.attrs.update}" immediate="true" />
+
+    <p:contextMenu rendered="#{cc.attrs.renderedContextMenu}">
+        <p:menuitem disabled="#{cc.attrs.disabledSave}" value="#{form.salvar}" action="#{cc.attrs.controller.save}"
+                    immediate="false" update="#{cc.attrs.update}" oncomplete="#{cc.attrs.saveComplete}"
+                    process="#{!empty cc.attrs.process ? cc.attrs.process : '@form'}" icon="ui-icon-disk"/>
+
+        <p:menuitem process="@this" value="#{form.cancelar}" action="#{cc.attrs.controller.reset}"
+                    update="#{cc.attrs.update}" immediate="true" icon="ui-icon-document" />
+    </p:contextMenu>
+
+</composite:implementation>
+
+</html>

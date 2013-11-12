@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd"
+    >
+            
+        <context:annotation-config/>
+        <context:component-scan base-package="br.com.viasoft.*"/>
+        
+        <!-- Utilizado para ler arquivos .properties por anotação do spring -->
+        <bean class="com.urbanmania.spring.beans.factory.config.annotations.PropertyAnnotationAndPlaceholderConfigurer">
+            <property name="locations">
+                <value>classpath:application.properties</value>
+            </property>
+        </bean> 
+        
+        <!-- 
+            prove um novo scopo utilizado para integracao com jsf 
+            scopo intermediario entre os ja existente Session e Request
+        -->
+        <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+            <property name="scopes">
+                <map>
+                    <entry key="view">
+                        <bean class="br.com.viasoft.web.scope.ViewScope" />
+                    </entry>
+                </map>
+            </property>
+        </bean>
+        
+        <import resource="applicationContext-jpa.xml"/>
+        <import resource="applicationContext-job.xml"/>
+        <import resource="applicationContext-mail.xml"/>
+</beans>

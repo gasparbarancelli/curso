@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>
+        <h:outputText value="Curso"/>
+    </title>
+    <h:outputStylesheet library="css" name="default.css"/>
+</h:head>
+
+<h:body>
+    <h:form>
+
+        <p:dialog id="dialog" header="Login" resizable="false" visible="true" modal="true" closable="false" draggable="false">
+
+            <h:panelGrid columns="2" cellpadding="5">
+                <h:outputLabel for="username" value="Username:" />
+                <p:inputText id="username" required="true" label="username" />
+
+                <h:outputLabel for="password" value="Password:" />
+                <p:password id="password" required="true" label="password"/>
+
+                <f:facet name="footer">
+                    <p:commandButton id="loginButton" value="Acessar" update="growl"
+                                     ajax="false" action="pages/principal/principal.xhtml?faces-redirect=true"/>
+                </f:facet>
+            </h:panelGrid>
+
+        </p:dialog>
+
+    </h:form>
+</h:body>
+</html>

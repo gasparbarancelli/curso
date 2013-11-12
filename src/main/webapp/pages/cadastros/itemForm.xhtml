@@ -1,0 +1,35 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:viasoft="http://java.sun.com/jsf/composite/viasoft"
+      xmlns:h="http://java.sun.com/jsf/html">
+<ui:decorate template="../template/padrao.xhtml">
+    <ui:define name="titulo">
+        <h:outputText value="#{form.cadastroItem}"/>
+    </ui:define>
+
+    <ui:define name="conteudo">
+        <p:panelGrid columns="2">
+            <p:outputLabel value="#{form.codigo}" for="codigo"/>
+            <p:inputText value="#{itemController.entity.id}" label="#{form.codigo}" id="codigo" disabled="true"/>
+
+            <p:outputLabel value="#{form.nome}" for="nome"/>
+            <p:inputText value="#{itemController.entity.nome}" label="#{form.nome}" id="nome" maxlength="50" required="true"/>
+
+            <p:outputLabel value="#{form.preco}" for="preco"/>
+            <p:inputText value="#{itemController.entity.preco}" label="#{form.preco}" id="preco" required="true">
+                <f:convertNumber locale="pt_BR" pattern="#,##0.00" />
+            </p:inputText>
+        </p:panelGrid>
+    </ui:define>
+
+    <ui:define name="rodape">
+        <viasoft:commandButtonForm update="@form" controller="#{itemController}"/>
+
+        <p:commandButton value="#{form.pesquisarItens}" action="/pages/cadastros/itemSearch.xhtml?faces-redirect=true"
+                         immediate="true" ajax="false" style="float: right"/>
+        <div style="clear: both"></div>
+    </ui:define>
+</ui:decorate>
+</html>

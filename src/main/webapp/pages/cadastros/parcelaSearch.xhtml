@@ -1,0 +1,75 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:viasoft="http://java.sun.com/jsf/composite/viasoft">
+<ui:decorate template="../template/padrao.xhtml">
+    <ui:define name="titulo">
+        <h:outputText value="#{form.pesquisaParcela}"/>
+    </ui:define>
+
+    <ui:define name="metadata">
+        <f:event type="preRenderView" listener="#{parcelaController.find}"/>
+    </ui:define>
+
+    <ui:define name="conteudo">
+        <p:panelGrid columns="3">
+            <p:outputLabel value="#{form.descricao}" for="descricao"/>
+
+            <p:inputText value="#{parcelaController.entity.descricao}" label="#{form.descricao}" id="descricao" maxlength="60"/>
+
+            <p:commandButton value="Pesquisar" process="@form" update="@form" action="#{parcelaController.find}"/>
+        </p:panelGrid>
+
+        <p:spacer height="40px"/>
+
+        <p:dataTable value="#{parcelaController.lsEntity}" var="item" emptyMessage="#{msg.nenhum_registro_encontrado}" paginator="true" rows="10" paginatorPosition="bottom">
+            <p:column headerText="#{form.codigo}" sortBy="#{item.id}" filterBy="#{item.id}">
+                <h:outputText value="#{item.id}"/>
+            </p:column>
+            <p:column headerText="#{form.descricao}" sortBy="#{item.descricao}" filterBy="#{item.descricao}" filterMatchMode="contains">
+                <h:outputText value="#{item.descricao}"/>
+            </p:column>
+            <p:column headerText="#{form.ativo}" sortBy="#{item.ativo.label}">
+                <h:outputText value="#{item.ativo.label}"/>
+            </p:column>
+            <p:column headerText="#{form.acoes}" style="text-align: center" width="20%">
+                <viasoft:commandButtonSearch controller="#{parcelaController}"/>
+            </p:column>
+        </p:dataTable>
+
+        <p:spacer height="10px"/>
+    </ui:define>
+
+    <ui:define name="rodape">
+        <p:commandButton value="#{form.adicionarNovaParcela}" action="/pages/cadastros/parcelaForm.xhtml?faces-redirect=true"
+                         immediate="true" ajax="false" style="float: right"/>
+        <div style="clear: both"></div>
+    </ui:define>
+
+    <ui:define name="foraDoForm">
+        <viasoft:confirmExclusaoSimples update=":form" action="#{parcelaController.delete}"/>
+
+        <p:dialog header="#{form.parcela}" id="view" widgetVar="view" modal="true" visible="false" resizable="false" width="300">
+            <p:panelGrid columns="2" id="view" columnClasses="columnBold">
+                <h:outputText value="#{form.codigo}"/>
+                <h:outputText value="#{parcelaController.entityView.id}"/>
+
+                <h:outputText value="#{form.descricao}"/>
+                <h:outputText value="#{parcelaController.entityView.descricao}"/>
+
+                <h:outputText value="#{form.ativo}"/>
+                <h:outputText value="#{parcelaController.entityView.ativo.label}"/>
+
+                <h:outputText value="#{form.numeroDeParcelas}"/>
+                <h:outputText value="#{parcelaController.entityView.numeroDeParcelas}"/>
+
+                <h:outputText value="#{form.diasEntreParcelas}"/>
+                <h:outputText value="#{parcelaController.entityView.diasEntreParcelas}"/>
+            </p:panelGrid>
+        </p:dialog>
+    </ui:define>
+
+</ui:decorate>
+</html>
